@@ -6,40 +6,43 @@
 /*   By: alvera-v <alvera-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:25:49 by alvera-v          #+#    #+#             */
-/*   Updated: 2025/02/11 18:01:38 by alvera-v         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:48:00 by alvera-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_putchar(char c)
+void	ft_putstr(char *s)
 {
-	write(1, &c, 1);
-	return (1);
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		write(1, &s[i], 1);
+		i++;
+	}
 }
 
-int	read_new_line(char *buffer, int count)
+int	print_new_line(char *buffer, int count)
 {
-	while (*buffer != '\n')
+	if (buffer[count] != '\n')
 	{
-		ft_putchar(*buffer);
-		buffer++;
-		count++;
+		ft_putchar(buffer[count]);
 	}
-	if (*buffer == '\n')
+	else if (buffer[count] == '\n')
 	{
-		ft_putchar(*buffer);
-		count++;
+		ft_putchar(buffer[count]);
 	}
+	count++;
 	return (count);
 }
 
 static char	*read_file(int fd)
 {
-	static int	size_read;
-	static int	count;
-	static int	i;
-	static char	*buffer;
+	static int		size_read;
+	static int		count;
+	char			*buffer;
 
 	count = 0;
 	if (!fd)
@@ -53,9 +56,12 @@ static char	*read_file(int fd)
 		free(buffer);
 		return (NULL);
 	}
-	while (count < (size_read - count))
+	while (count < size_read)
+		count = print_new_line(buffer, count);
+	if ((*buffer + count) == '\0')
 	{
-		count = read_new_line(buffer + count, count);
+		write (1, "NULL", 4);
+		return (NULL);
 	}
 	return (buffer);
 }

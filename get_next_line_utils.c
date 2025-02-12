@@ -6,7 +6,7 @@
 /*   By: alvera-v <alvera-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:26:50 by alvera-v          #+#    #+#             */
-/*   Updated: 2025/02/07 12:22:44 by alvera-v         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:49:01 by alvera-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,9 @@ void	*ft_calloc(size_t nmeb, size_t size)
 		return (NULL);
 	ft_bzero(temp, nmeb * size);
 	return (temp);
+}
+
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
 }
