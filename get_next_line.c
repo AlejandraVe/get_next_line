@@ -6,35 +6,34 @@
 /*   By: alvera-v <alvera-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:25:49 by alvera-v          #+#    #+#             */
-/*   Updated: 2025/02/12 13:48:00 by alvera-v         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:23:45 by alvera-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_putstr(char *s)
+int	check_new_line(char *buffer, int count)
 {
-	int	i;
+	char	*new_line;
+	int		size_of_line;
+	int		i;
+	int		j;
 
 	i = 0;
-	while (s[i])
-	{
-		write(1, &s[i], 1);
+	while (buffer[i + count] != '\n')
 		i++;
-	}
-}
-
-int	print_new_line(char *buffer, int count)
-{
-	if (buffer[count] != '\n')
+	new_line = ft_calloc(i + 1, sizeof(char));
+	if (!new_line)
+		free(new_line);
+	j = 0;
+	while (j <= i)
 	{
-		ft_putchar(buffer[count]);
+		new_line[j] = buffer[count];
+		ft_putchar(new_line[j]);
+		j++;
+		count++;
 	}
-	else if (buffer[count] == '\n')
-	{
-		ft_putchar(buffer[count]);
-	}
-	count++;
+	free(new_line);
 	return (count);
 }
 
@@ -45,8 +44,6 @@ static char	*read_file(int fd)
 	char			*buffer;
 
 	count = 0;
-	if (!fd)
-		return (NULL);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
 		return (NULL);
@@ -57,8 +54,8 @@ static char	*read_file(int fd)
 		return (NULL);
 	}
 	while (count < size_read)
-		count = print_new_line(buffer, count);
-	if ((*buffer + count) == '\0')
+		count = check_new_line(buffer, count);
+	if ((buffer[count + 1]) == '\0')
 	{
 		write (1, "NULL", 4);
 		return (NULL);
