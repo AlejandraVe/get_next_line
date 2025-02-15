@@ -6,7 +6,7 @@
 /*   By: alvera-v <alvera-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:25:49 by alvera-v          #+#    #+#             */
-/*   Updated: 2025/02/13 17:23:45 by alvera-v         ###   ########.fr       */
+/*   Updated: 2025/02/15 16:06:12 by alvera-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,30 @@
 
 int	check_new_line(char *buffer, int count)
 {
-	char	*new_line;
-	int		size_of_line;
+	char	*original_line;
 	int		i;
 	int		j;
 
 	i = 0;
-	while (buffer[i + count] != '\n')
-		i++;
-	new_line = ft_calloc(i + 1, sizeof(char));
-	if (!new_line)
-		free(new_line);
 	j = 0;
-	while (j <= i)
-	{
-		new_line[j] = buffer[count];
-		ft_putchar(new_line[j]);
+	while (buffer[count + j] != '\n')
 		j++;
+	original_line = ft_calloc(j + 1, sizeof(char *));
+	if (!original_line)
+		free(original_line);
+	while (i <= j)
+	{
+		original_line[i] = buffer[count];
+		ft_putchar(original_line[i]);
+		if (original_line[i] == '\n')
+		{
+			free(original_line);
+			break;
+		}
+		i++;
 		count++;
 	}
-	free(new_line);
+	count += 1;
 	return (count);
 }
 
@@ -44,7 +48,7 @@ static char	*read_file(int fd)
 	char			*buffer;
 
 	count = 0;
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char *));
 	if (!buffer)
 		return (NULL);
 	size_read = read(fd, buffer, BUFFER_SIZE);
@@ -53,12 +57,16 @@ static char	*read_file(int fd)
 		free(buffer);
 		return (NULL);
 	}
-	while (count < size_read)
-		count = check_new_line(buffer, count);
-	if ((buffer[count + 1]) == '\0')
+	while (count <= size_read)
 	{
-		write (1, "NULL", 4);
-		return (NULL);
+		count = check_new_line(buffer, count);
+		if (count == BUFFER_SIZE)
+			free(buffer);
+		if ((buffer[count + 1]) == '\0')
+		{
+			write (1, "NULL", 4);
+			return (NULL);
+		}
 	}
 	return (buffer);
 }
@@ -70,10 +78,5 @@ char	*get_next_line(int fd)
 	if (!fd)
 		return (NULL);
 	buffer = read_file(fd);
-	if (!buffer)
-	{
-		write (1, "NULL", 4);
-		return (NULL);
-	}
 	return (buffer);
 }

@@ -6,7 +6,7 @@
 /*   By: alvera-v <alvera-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:02:05 by alvera-v          #+#    #+#             */
-/*   Updated: 2025/02/13 16:06:13 by alvera-v         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:43:39 by alvera-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	main(void)
 		if (!next_line)
 			break ;
 		free (next_line);
-		next_line = NULL;
 	}
 	close (fd);
 	return (0);
