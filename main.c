@@ -12,6 +12,7 @@
 
 #include "get_next_line.h"
 #include <stdio.h>
+#include <fcntl.h>
 
 int	main(void)
 {
@@ -22,7 +23,7 @@ int	main(void)
 	i = 0;
 	fd = open("example.txt", O_RDONLY);
 	if (fd == -1)
-		return (1);
+		return (-1);
 	printf("%s", "hola");
 	while ((next_line = get_next_line(fd)) && next_line != NULL)
 	{
