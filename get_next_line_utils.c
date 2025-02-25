@@ -6,40 +6,12 @@
 /*   By: alvera-v <alvera-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:26:50 by alvera-v          #+#    #+#             */
-/*   Updated: 2025/02/24 18:34:47 by alvera-v         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:15:39 by alvera-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-/*char	*use_buffer(char *buffer, int fd)
-{
-	static int	size_read;
-	static int	count;
-
-	count = 0;
-	size_read = read(fd, buffer, BUFFER_SIZE);
-	if (size_read < 0)
-	{
-		free(buffer);
-		return (NULL);
-	}
-	buffer[size_read] = '\0';
-	while (count <= size_read)
-	{
-		count = check_new_line(buffer, count);
-		if ((buffer[count + 1]) == '\0')
-		{
-			write (1, "NULL", 4);
-			return (NULL);
-		}
-	}
-	if (count == BUFFER_SIZE)
-	{
-		buffer = get_next_line(fd);
-	}
-	return (buffer);
-}*/
 size_t	ft_strlen(char *s)
 {
 	size_t	i;
@@ -79,12 +51,12 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1)
 	{
-		s1 = (char *)malloc(1 * sizeof(char));
+		s1 = malloc(sizeof(char *) * (1));
 		s1[0] = '\0';
 	}
 	if (!s1 || !s2)
 		return (NULL);
-	ret = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	ret = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char *));
 	if (!ret)
 		return (NULL);
 	ret = ft_join(ret, s1, s2);

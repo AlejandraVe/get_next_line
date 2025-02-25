@@ -6,12 +6,11 @@
 /*   By: alvera-v <alvera-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:25:49 by alvera-v          #+#    #+#             */
-/*   Updated: 2025/02/24 18:24:29 by alvera-v         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:15:41 by alvera-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 char	*check_new_line(char *str)
 {
@@ -25,9 +24,10 @@ char	*check_new_line(char *str)
 		i++;
 	if (str[i] == '\n')
 		i++;
-	new_line = (char *)malloc(sizeof(char) * (i + 1));
+	new_line = malloc(sizeof(char *) * (i + 1));
 	if (!new_line)
 		return (NULL);
+	new_line[i] = '\0';
 	i = 0;
 	while (str[i] != '\n' && str[i])
 	{
@@ -36,7 +36,6 @@ char	*check_new_line(char *str)
 	}
 	if (str[i] == '\n')
 		new_line[i++] = '\n';
-	new_line[i] = '\0';
 	return (new_line);
 }
 
@@ -55,7 +54,7 @@ char	*update_line(char *str)
 		return (NULL);
 	}
 	i += (str[i] == '\n');
-	updated = (char *)malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	updated = malloc(sizeof(char *) * (ft_strlen(str) - i + 1));
 	if (!updated)
 		return (NULL);
 	j = 0;
@@ -78,7 +77,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	size_read = 1;
-	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buffer = malloc(sizeof(char *) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 	while (!(ft_strchr(line_read, '\n')) && (size_read != 0))
