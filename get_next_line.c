@@ -6,20 +6,20 @@
 /*   By: alvera-v <alvera-v@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:25:49 by alvera-v          #+#    #+#             */
-/*   Updated: 2025/02/25 13:15:41 by alvera-v         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:52:43 by alvera-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*check_new_line(char *str)
+char	*check_line(char *str)
 {
 	char	*new_line;
 	int		i;
 
-	if (!str || !str[0])
-		return (NULL);
 	i = 0;
+	if (!str[i])
+		return (NULL);
 	while (str[i] != '\n' && str[i])
 		i++;
 	if (str[i] == '\n')
@@ -35,7 +35,8 @@ char	*check_new_line(char *str)
 		i++;
 	}
 	if (str[i] == '\n')
-		new_line[i++] = '\n';
+		new_line[i] = '\n';
+	new_line[i + 1] = '\0';
 	return (new_line);
 }
 
@@ -70,29 +71,29 @@ char	*update_line(char *str)
 
 char	*get_next_line(int fd)
 {
-	static char	*line_read;
+	static char	*lines;
 	char		*buffer;
 	int			size_read;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	size_read = 7;
+	if (fd < 0)
 		return (NULL);
-	size_read = 1;
 	buffer = malloc(sizeof(char *) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	while (!(ft_strchr(line_read, '\n')) && (size_read != 0))
+	while (!(ft_strchr(lines, '\n')) && (size_read != 0))
 	{
 		size_read = read(fd, buffer, BUFFER_SIZE);
-		if (size_read == -1)
+		if (size_read < 0)
 		{
 			free(buffer);
 			return (NULL);
 		}
 		buffer[size_read] = '\0';
-		line_read = ft_strjoin(line_read, buffer);
+		lines = ft_strjoin(lines, buffer);
 	}
 	free(buffer);
-	buffer = check_new_line(line_read);
-	line_read = update_line(line_read);
+	buffer = check_line(lines);
+	lines = update_line(lines);
 	return (buffer);
 }
